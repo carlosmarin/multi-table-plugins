@@ -95,7 +95,7 @@ public class MultiTableDBInputFormat extends InputFormat<NullWritable, Structure
         // the table should not be read
         if (!blackList.contains(tableName) && (whiteList.isEmpty() || whiteList.contains(tableName))) {
           List<String> primaryColumns = getPrimaryColumns(dbConf.getSchemaNamePattern(), tableName, dbMeta);
-          Schema schema = getTableSchema(dbTableName.fullTableName(), connection);
+          Schema schema = getTableSchema(dbTableName.fullTableNameQuoted(), connection);
           tableInfos.add(new DBTableInfo(dbTableName, schema, primaryColumns));
         }
       }
@@ -192,7 +192,7 @@ public class MultiTableDBInputFormat extends InputFormat<NullWritable, Structure
     throws SQLException {
     String columnName = info.getPrimaryKey().get(0);
     try (Statement statement = connection.createStatement();
-         ResultSet results = statement.executeQuery(getBoundingValsQuery(info.getDbTableName().fullTableName(),
+         ResultSet results = statement.executeQuery(getBoundingValsQuery(info.getDbTableName().fullTableNameQuoted(),
                                                                          columnName,
                                                                          conf.getPluginConf().getWhereClause()))) {
       results.next();
@@ -203,7 +203,7 @@ public class MultiTableDBInputFormat extends InputFormat<NullWritable, Structure
       int sqlDataType = results.getMetaData().getColumnType(1);
       DBSplitter splitter = getSplitter(sqlDataType);
       if (null == splitter) {
-        LOG.info("Failed to create internal splits for table " + info.getDbTableName().fullTableName() +
+        LOG.info("Failed to create internal splits for table " + info.getDbTableName().fullTableNameQuoted() +
                    " only one split will be generated");
         return Collections.singletonList(new DBTableSplit(info.getDbTableName()));
       }

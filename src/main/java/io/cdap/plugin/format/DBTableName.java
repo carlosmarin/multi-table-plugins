@@ -24,4 +24,9 @@ public class DBTableName {
     // this is required for oracle apparently? Don't know why
     return db == null ? table : db + "." + table;
   }
+
+  public String fullTableNameQuoted() {
+    return db == null ? "\"" + table + "\"" : "\"" + db + "\".\"" + table + "\"";
+  }
+
 }

@@ -159,7 +159,7 @@ public class DBTableRecordReader extends RecordReader<NullWritable, StructuredRe
   }
 
   private String getQuery() {
-    String query = "SELECT * FROM " + tableName.fullTableName() + " ";
+    String query = "SELECT * FROM " + tableName.fullTableNameQuoted() + " ";
     String whereClause = dbConf.getWhereClause();
 
     if (whereClause != null && !whereClause.isEmpty()) {

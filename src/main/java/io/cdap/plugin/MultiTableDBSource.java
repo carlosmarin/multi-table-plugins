@@ -42,11 +42,12 @@ import java.util.Collection;
  * Batch source to read from multiple tables in a database using JDBC.
  */
 @Plugin(type = BatchSource.PLUGIN_TYPE)
-@Name("MultiTableDatabase")
+@Name("PostgresMultiTableDatabase")
 @Description("Reads from multiple tables in a relational database. " +
   "Outputs one record for each row in each table, with the table name as a record field. " +
   "Also sets a pipeline argument for each table read, which contains the table schema. ")
 public class MultiTableDBSource extends BatchSource<NullWritable, StructuredRecord, StructuredRecord> {
+
   private static final String JDBC_PLUGIN_ID = "jdbc.driver";
 
   private final MultiTableConf conf;
