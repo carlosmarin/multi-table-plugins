@@ -82,7 +82,7 @@ public class MultiTableDBInputFormat extends InputFormat<NullWritable, Structure
     try (Connection connection = dbConf.getConnection()) {
       DatabaseMetaData dbMeta = connection.getMetaData();
       ResultSet tables = dbMeta.getTables(null, dbConf.getSchemaNamePattern(), dbConf.getTableNamePattern(),
-                                          new String[]{"TABLE", "TABLE_SCHEM"});
+                                          new String[]{"TABLE", "TABLE_SCHEM", "VIEW"});
       List<DBTableInfo> tableInfos = new ArrayList<>();
       List<String> whiteList = dbConf.getWhiteList();
       List<String> blackList = dbConf.getBlackList();
